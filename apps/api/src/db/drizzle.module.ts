@@ -1,35 +1,34 @@
-import { Global, Module, OnModuleDestroy } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
-import * as schema from "@factory/db/schema";
+import { Module, Global } from '@nestjs/common';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
+import * as schema from '@factory/db/schema';
+import { ConfigService } from '@nestjs/config';
 
-export const PG_POOL = Symbol("PG_POOL");
-export const DRIZZLE = Symbol("DRIZZLE");
+// Eksportujemy stałą, żeby inne moduły mogły jej używać
+export const DRIZZLE = 'DRIZZLE';
 
 @Global()
 @Module({
   providers: [
     {
-      provide: PG_POOL,
+      provide: DRIZZLE,
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        const connectionString = config.get<string>("database.url");
-        return new Pool({ connectionString });
+      useFactory: async (configService: ConfigService) => {
+        // Próbujemy pobrać URL z configu lub bezpośrednio z env
+        const connectionString = configService.get<string>('DATABASE_URL') || process.env.DATABASE_URL;
+        
+        if (!connectionString) {
+          throw new Error('❌ BŁĄD KRYTYCZNY: Nie znaleziono DATABASE_URL w pliku .env!');
+        }
+
+        const pool = new Pool({
+          connectionString,
+        });
+
+        return drizzle(pool, { schema });
       },
     },
-    {
-      provide: DRIZZLE,
-      inject: [PG_POOL],
-      useFactory: (pool: Pool) => drizzle(pool, { schema }),
-    },
   ],
-  exports: [DRIZZLE, PG_POOL],
+  exports: [DRIZZLE],
 })
-export class DrizzleModule implements OnModuleDestroy {
-  constructor(private readonly pool: Pool) {}
-
-  async onModuleDestroy() {
-    await this.pool.end();
-  }
-}
+export class DrizzleModule {}

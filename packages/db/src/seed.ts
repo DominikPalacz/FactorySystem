@@ -5,11 +5,11 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { inventoryBalance, items, locations } from "./schema";
 
-dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env") });
+dotenv.config({ path: path.resolve(__dirname, "..", "..", "..", ".env") });
 
 const connectionString =
   process.env.DATABASE_URL ??
-  "postgres://admin:password@localhost:5432/factory_db";
+  "postgres://postgres:postgres@localhost:5432/factory_db";
 
 async function main() {
   const pool = new Pool({ connectionString });
