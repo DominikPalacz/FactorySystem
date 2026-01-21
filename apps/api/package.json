@@ -4,12 +4,41 @@
   "private": true,
   "description": "Factory Nervous System API (Nest.js)",
   "scripts": {
+    "prestart": "npm --prefix ../../ run build --workspace @factory/db",
     "start": "node dist/main",
+    "prestart:dev": "npm --prefix ../../ run build --workspace @factory/db",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "prebuild": "npm --prefix ../../ run build --workspace @factory/db",
     "build": "nest build",
     "lint": "eslint \"src/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\""
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@factory/db": "file:../../packages/db",
+    "@nestjs/common": "^11.1.12",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.1.12",
+    "@nestjs/platform-express": "^11.1.12",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.17.2",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.16",
+    "@nestjs/schematics": "^11.0.9",
+    "@types/node": "^25.0.9",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
 }
