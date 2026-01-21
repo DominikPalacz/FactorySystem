@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+.turbo
+.DS_Store
+*.log
+.env
+.env.*
+coverage
+tmp
+npm-debug.log*

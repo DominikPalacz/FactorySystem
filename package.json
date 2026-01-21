@@ -1,0 +1,29 @@
+{
+  "name": "factorysystem-1",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Factory Nervous System monorepo (Nest.js + React + Postgres, npm workspaces)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "echo \"lint not yet configured\"",
+    "format": "echo \"format not yet configured\"",
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:api": "npm --workspace apps/api run start:dev",
+    "build:web": "npm --workspace apps/web run build",
+    "build:api": "npm --workspace apps/api run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DominikPalacz/FactorySystem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DominikPalacz/FactorySystem/issues"
+  },
+  "homepage": "https://github.com/DominikPalacz/FactorySystem#readme"
+}

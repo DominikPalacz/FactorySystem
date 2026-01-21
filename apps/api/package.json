@@ -1,0 +1,15 @@
+{
+  "name": "@factory/api",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Factory Nervous System API (Nest.js)",
+  "scripts": {
+    "start": "node dist/main",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "build": "nest build",
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "license": "MIT"
+}

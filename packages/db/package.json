@@ -1,0 +1,11 @@
+{
+  "name": "@factory/db",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Drizzle schema and migrations for Factory Nervous System",
+  "scripts": {
+    "drizzle:generate": "drizzle-kit generate:pg",
+    "drizzle:push": "drizzle-kit push:pg"
+  },
+  "license": "MIT"
+}
