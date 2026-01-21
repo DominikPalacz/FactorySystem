@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-rugged-dark text-rugged-light font-sans;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-8 py-4 bg-rugged-accent text-rugged-dark font-bold rounded-lg hover:bg-orange-500 active:scale-95 transition-all text-lg;
+  }
+
+  .btn-success {
+    @apply px-8 py-4 bg-rugged-success text-rugged-dark font-bold rounded-lg hover:bg-green-600 active:scale-95 transition-all text-lg;
+  }
+
+  .btn-danger {
+    @apply px-8 py-4 bg-rugged-danger text-rugged-light font-bold rounded-lg hover:bg-red-700 active:scale-95 transition-all text-lg;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-4 bg-rugged-gray text-rugged-light font-bold rounded-lg hover:bg-gray-600 active:scale-95 transition-all text-lg border-2 border-rugged-light;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-rugged-gray text-rugged-light rounded-lg border-2 border-rugged-light focus:outline-none focus:border-rugged-accent text-base;
+  }
+
+  .input-label {
+    @apply block text-lg font-bold text-rugged-light mb-2;
+  }
+
+  .card {
+    @apply bg-rugged-gray rounded-lg border-2 border-rugged-light p-6;
+  }
+
+  .table-header {
+    @apply bg-rugged-accent text-rugged-dark font-bold py-3 px-4 text-left text-lg;
+  }
+
+  .table-row {
+    @apply border-b border-rugged-light py-3 px-4 text-base hover:bg-rugged-gray transition-colors;
+  }
+}
