@@ -3,10 +3,13 @@ import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { DRIZZLE } from "../db/drizzle.module";
 import { inventoryBalance, items, locations } from "@factory/db/schema";
+import * as schema from "@factory/db/schema";
 
 @Injectable()
 export class StockService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase) {}
+  constructor(
+    @Inject(DRIZZLE) private readonly db: NodePgDatabase<typeof schema>,
+  ) {}
 
   async getStock() {
     return this.db

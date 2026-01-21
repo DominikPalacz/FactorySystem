@@ -2,6 +2,7 @@ import { Global, Module, OnModuleDestroy } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
+import * as schema from "@factory/db/schema";
 
 export const PG_POOL = Symbol("PG_POOL");
 export const DRIZZLE = Symbol("DRIZZLE");
@@ -20,7 +21,7 @@ export const DRIZZLE = Symbol("DRIZZLE");
     {
       provide: DRIZZLE,
       inject: [PG_POOL],
-      useFactory: (pool: Pool) => drizzle(pool),
+      useFactory: (pool: Pool) => drizzle(pool, { schema }),
     },
   ],
   exports: [DRIZZLE, PG_POOL],

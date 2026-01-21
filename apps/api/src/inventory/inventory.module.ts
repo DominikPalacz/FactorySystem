@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
 import { InventoryService } from "./inventory.service";
 import { InventoryController } from "./inventory.controller";
+import { IdempotencyInterceptor } from "../idempotency/idempotency.interceptor";
 
 @Module({
-  providers: [InventoryService],
+  providers: [InventoryService, IdempotencyInterceptor],
   controllers: [InventoryController],
   exports: [InventoryService],
 })

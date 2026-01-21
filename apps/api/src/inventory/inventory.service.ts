@@ -3,16 +3,18 @@ import { randomUUID } from "crypto";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { and, eq, sql } from "drizzle-orm";
 import { DRIZZLE } from "../db/drizzle.module";
-import {
-  inventoryBalance,
-  inventoryLedger,
-} from "@factory/db/schema";
+import { inventoryBalance, inventoryLedger, outboxEvents } from "@factory/db/schema";
 import { InboundDto } from "./dto/inbound.dto";
 import { TransferDto } from "./dto/transfer.dto";
+import * as schema from "@factory/db/schema";
+import { OutboxService } from "../events/outbox.service";
 
 @Injectable()
 export class InventoryService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase) {}
+  constructor(
+    @Inject(DRIZZLE) private readonly db: NodePgDatabase<typeof schema>,
+    private readonly outbox: OutboxService,
+  ) {}
 
   async receive(dto: InboundDto) {
     const transactionGroupId = randomUUID();
@@ -41,6 +43,15 @@ export class InventoryService {
         itemId: dto.itemId,
         quantityChange: dto.quantity,
         referenceType: "INBOUND",
+        operatorId,
+        metadata: dto.metadata ?? null,
+      });
+
+      await this.outbox.enqueue(tx, "InventoryInbound", {
+        transactionGroupId,
+        locationId: dto.locationId,
+        itemId: dto.itemId,
+        quantity: dto.quantity,
         operatorId,
         metadata: dto.metadata ?? null,
       });
@@ -126,6 +137,18 @@ export class InventoryService {
           metadata: dto.metadata ?? null,
         },
       ]);
+
+      // Transactional Outbox (must use *tx* inside this transaction)
+      await tx.insert(outboxEvents).values({
+        type: "INVENTORY_TRANSFERRED",
+        payload: {
+          dto,
+          transactionGroupId,
+        },
+        status: "PENDING",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
     });
 
     return { ok: true, transactionGroupId };

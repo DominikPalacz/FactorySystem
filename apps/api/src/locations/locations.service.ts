@@ -1,13 +1,16 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import { DRIZZLE } from "../db/drizzle.module";
 import { locations } from "@factory/db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as schema from "@factory/db/schema";
 import { CreateLocationDto } from "./dto/create-location.dto";
 
 @Injectable()
 export class LocationsService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase) {}
+  constructor(
+    @Inject(DRIZZLE) private readonly db: NodePgDatabase<typeof schema>,
+  ) {}
 
   async findAll() {
     return this.db.select().from(locations).orderBy(locations.name);
